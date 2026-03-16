@@ -1,26 +1,350 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-main: #f4f4f4;
+  --bg-surface: #ffffff;
+  --ink-main: #171a20;
+  --ink-soft: #5c5e62;
+  --line-soft: #d8d9dc;
+  --line-strong: #b8babf;
+  --accent-main: #111111;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+[data-theme='dark'] {
+  --bg-main: #0f1115;
+  --bg-surface: #171a20;
+  --ink-main: #f2f3f5;
+  --ink-soft: #b6bcc7;
+  --line-soft: #2b313c;
+  --line-strong: #3f4754;
+  --accent-main: #ffffff;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink-main);
+  background:
+    radial-gradient(circle at 100% -10%, rgba(0, 0, 0, 0.045), transparent 36%),
+    radial-gradient(circle at -20% 100%, rgba(0, 0, 0, 0.03), transparent 42%),
+    var(--bg-main);
+  font-family: "Montserrat", "Avenir Next", "Segoe UI", sans-serif;
+}
+
+[data-theme='dark'] body {
+  background:
+    radial-gradient(circle at 100% -10%, rgba(255, 255, 255, 0.06), transparent 38%),
+    radial-gradient(circle at -20% 100%, rgba(255, 255, 255, 0.04), transparent 42%),
+    var(--bg-main);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.studio-shell {
+  position: relative;
+}
+
+.studio-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0));
+  z-index: -1;
+}
+
+[data-theme='dark'] .studio-shell::before {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
+}
+
+.studio-panel {
+  position: relative;
+  width: 100%;
+  background: var(--bg-surface);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='dark'] .studio-panel {
+  border-color: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.38);
+}
+
+.studio-panel:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme='dark'] .studio-panel:hover {
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.46);
+}
+
+.studio-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent 18%);
+}
+
+[data-theme='dark'] .studio-panel::after {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 20%);
+}
+
+.studio-border {
+  position: absolute;
+  inset: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  border-radius: 14px;
+  pointer-events: none;
+}
+
+[data-theme='dark'] .studio-border {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.studio-panel:hover .studio-border {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='dark'] .studio-panel:hover .studio-border {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.studio-title {
+  color: var(--ink-main);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.studio-input {
+  width: 100%;
+  padding: 0.88rem 1.05rem;
+  background: #f9f9fa;
+  color: var(--ink-main);
+  border: 1px solid var(--line-soft);
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+[data-theme='dark'] .studio-input {
+  background: #11141b;
+}
+
+.studio-input::placeholder {
+  color: #7c7f85;
+}
+
+[data-theme='dark'] .studio-input::placeholder {
+  color: #8d94a1;
+}
+
+.studio-input:focus {
+  border-color: var(--line-strong);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
+}
+
+[data-theme='dark'] .studio-input:focus {
+  background: #171b24;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+}
+
+.studio-button {
+  border: 1px solid var(--accent-main); /* Usamos la variable para el borde por defecto */
+  background: var(--accent-main); /* Usamos la variable para el fondo por defecto */
+  color: var(--bg-surface); /* Invertimos el color del texto por defecto */
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  border-radius: 999px;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+/* Solo cambiamos el hover por defecto para que reaccione al tema */
+.studio-button:hover {
+  transform: translateY(-1px);
+  opacity: 0.85;
+}
+
+.studio-button:active {
+  transform: translateY(0);
+  opacity: 0.75;
+}
+
+/* Botón Secundario (Adaptable al tema) */
+.studio-button.secondary {
+  background: var(--bg-surface);
+  color: var(--ink-main);
+  border-color: var(--line-strong);
+}
+
+.studio-button.secondary:hover {
+  background: var(--bg-main);
+}
+
+/* --- ESTILOS FIJOS (NO CAMBIAN CON EL TEMA) --- */
+
+/* Botón WhatsApp (Verde Fijo) */
+.studio-button.btn-whatsapp {
+  background: #25D366 !important;
+  border-color: #25D366 !important;
+  color: #ffffff !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.studio-button.btn-whatsapp:hover {
+  background: #20BA56 !important;
+  border-color: #20BA56 !important;
+}
+
+/* Botón Eliminar (Rojo Fuerte Fijo) */
+.studio-button.btn-delete {
+  background: #e41c3b !important;
+  border-color: #e41c3b !important;
+  color: #ffffff !important;
+}
+
+.studio-button.btn-delete:hover {
+  background: #c41c3b !important;
+  border-color: #c41c3b !important;
+}
+.studio-chip {
+  border: 1px solid var(--line-soft);
+  background: #ffffff;
+  color: var(--ink-soft);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+[data-theme='dark'] .studio-chip {
+  background: #12161f;
+}
+
+.studio-chip:hover {
+  border-color: var(--line-strong);
+  color: var(--ink-main);
+}
+
+.studio-chip.active {
+  background: #111111;
+  border-color: #111111;
+  color: #ffffff;
+}
+
+[data-theme='dark'] .studio-chip.active {
+  background: #f1f2f4;
+  border-color: #f1f2f4;
+  color: #111319;
+}
+
+.tiny-label {
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--ink-soft);
+}
+
+.date-text {
+  color: #1a1a1a;
+}
+
+[data-theme='dark'] .date-text {
+  color: #ffffff;
+}
+
+.selection-gold::selection {
+  background: rgba(17, 17, 17, 0.2);
+}
+
+[data-theme='dark'] .selection-gold::selection {
+  background: rgba(241, 242, 244, 0.2);
+}
+
+.invert-calendar::-webkit-calendar-picker-indicator {
+  filter: grayscale(1);
+}
+
+@keyframes studioTrail {
+  0% {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 88%, rgba(0, 0, 0, 0.16) 100%);
+    opacity: 0;
+  }
+
+  30%,
+  70% {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 68%, rgba(0, 0, 0, 0.16) 100%);
+    opacity: 1;
+  }
+
+  100% {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 88%, rgba(0, 0, 0, 0.16) 100%);
+    opacity: 0;
+  }
+}
+
+.trail-on-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.trail-on-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.trail-on-hover:hover::before {
+  animation: studioTrail 1s ease-in-out;
+}
+
+/* Theme toggle */
+.theme-toggle {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 60;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--bg-surface);
+  color: var(--ink-main);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* Compatibility overrides for existing slate utility classes */
+[data-theme='dark'] .text-slate-800 {
+  color: #f2f3f5 !important;
+}
+
+[data-theme='dark'] .text-slate-600,
+[data-theme='dark'] .text-slate-500,
+[data-theme='dark'] .text-slate-400 {
+  color: #b8bfca !important;
+}
+
+[data-theme='dark'] .border-slate-200 {
+  border-color: #2f3643 !important;
+}
+
+[data-theme='dark'] .bg-slate-100 {
+  background-color: #141922 !important;
+}
+
+[data-theme='dark'] .bg-slate-100\/70 {
+  background-color: rgba(20, 25, 34, 0.72) !important;
 }
