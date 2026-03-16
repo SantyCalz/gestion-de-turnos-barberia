@@ -33,7 +33,7 @@ export default function HomePage() {
   }
 
   const generarHorarios = () => {
-    const horarios = []
+    const horarios: string[] = []
     const franjas = [{ inicio: 8, fin: 12, mf: 0 }, { inicio: 16, fin: 20, mf: 40 }]
     franjas.forEach(f => {
       let act = f.inicio * 60

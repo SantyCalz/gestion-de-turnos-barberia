@@ -76,7 +76,7 @@ export default function AdminPage() {
   const bloquearRangoHorario = async () => {
     if (!bloqueoFecha) return toast.error('Elegí fecha')
     setCargandoBloqueo(true)
-    const bloqueos = []
+    const bloqueos: any[] = []
     const [hI, mI] = horaInicio.split(':').map(Number)
     const [hF, mF] = horaFin.split(':').map(Number)
     let actual = hI * 60 + mI
